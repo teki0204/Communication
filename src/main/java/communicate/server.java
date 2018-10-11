@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class server {
-
   public static void main(String[] args) throws IOException {
     socketServer();
   }
