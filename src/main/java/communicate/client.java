@@ -11,7 +11,12 @@ public class client {
   public static void main(String[] args) throws IOException {
     socketClient();
   }
-/*新しい接続を作って、Threadを始まる*/
+  
+  /**
+  * 新しい接続を作って、Threadプログラムを実行させる。
+  * 接続した場合に通信の入力と出力のThreadプログラムを実行させる。
+  * 接続していない場合に「Server is off」と表示する。
+  */
   public static void socketClient() throws IOException {
     Socket socket = new Socket("127.0.0.1", 8888);
     if (socket.isConnected()) {
@@ -23,7 +28,9 @@ public class client {
   }
 }
 
-/*messageを入力するThread*/
+/**
+/* messageを入力するThread
+ */
 class writer extends Thread {
   private Socket socket;
   private PrintWriter printWriter;
@@ -34,7 +41,8 @@ class writer extends Thread {
     this.socket = socket;
     this.printWriter = new PrintWriter(socket.getOutputStream());
   }
-
+  
+  //Threadのプログラムを実行させる。
   public void run() {
     scanner.useDelimiter("\r\n");
     while (true) {
@@ -51,7 +59,9 @@ class writer extends Thread {
   }
 }
 
-/*Client側からの入力をバッファーする。*/
+/**
+/* Client側からの入力をバッファーする。
+ */
 class read extends Thread {
   private Socket socket;
   private BufferedReader bufferedReader;
@@ -62,7 +72,7 @@ class read extends Thread {
     this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
   }
  
-/*バッファーからmessageを読み出して、表す。*/
+  //バッファーからmessageを読み出して、表す。
   public void run() {
     while (true) {
       try {

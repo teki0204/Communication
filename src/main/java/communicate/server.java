@@ -14,8 +14,10 @@ public class server {
   public static void main(String[] args) throws IOException {
     socketServer();
   }
-  
- /* ホストを設置して、 SocketのThreadを始まる。Client側の接続を待つ。*/
+
+  /**
+  /* ホストを設置して、 SocketのThreadを始まる。Client側の接続を待つ。
+   */
   public static void socketServer() throws IOException {
     System.out.println("Waiting for client");
     ServerSocket server = new ServerSocket(8888);
@@ -27,7 +29,9 @@ public class server {
   }
 }
 
-/* Client側から入力したmessageを受信する。*/
+/**
+/* Client側から入力したmessageを受信する。
+ */
 class SocketThread extends Thread {
   private static List<PrintWriter> list = new ArrayList<PrintWriter>();
   private BufferedReader bufferedReader;
@@ -39,7 +43,7 @@ class SocketThread extends Thread {
     list.add(printWriter);
   }
   
-/*バッファーからmessageを読み出して、表す。*/
+  //バッファーからmessageを読み出して、表す。
   public void run() {
     String string = null;
     while (true) {
