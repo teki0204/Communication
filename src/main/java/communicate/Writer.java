@@ -1,4 +1,4 @@
-package communicate;
+﻿package communicate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +21,7 @@ class Writer extends Thread {
   }
   
   //Threadのプログラムを実行させる。
+  //keyboardで入力する。1つの文が複数行に渡って、return keyを入力すると終了する。
   public void run() {
     System.out.print("Please input message：");
     while (true) {
