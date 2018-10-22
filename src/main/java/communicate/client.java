@@ -1,90 +1,26 @@
 package communicate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class client {
+public class Client {
+
   public static void main(String[] args) throws IOException {
     socketClient();
   }
-  
+
   /**
-  * V‚µ‚¢Ú‘±‚ğì‚Á‚ÄAThreadƒvƒƒOƒ‰ƒ€‚ğÀs‚³‚¹‚éB
-  * Ú‘±‚µ‚½ê‡‚É’ÊM‚Ì“ü—Í‚Æo—Í‚ÌThreadƒvƒƒOƒ‰ƒ€‚ğÀs‚³‚¹‚éB
-  * Ú‘±‚µ‚Ä‚¢‚È‚¢ê‡‚ÉuServer is offv‚Æ•\¦‚·‚éB
+  * æ–°ã—ã„æ¥ç¶šã‚’ä½œã£ã¦ã€Threadãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œã•ã›ã‚‹ã€‚
+  * æ¥ç¶šã—ãŸå ´åˆã«é€šä¿¡ã®å…¥åŠ›ã¨å‡ºåŠ›ã®Threadãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œã•ã›ã‚‹ã€‚
+  * æ¥ç¶šã—ã¦ã„ãªã„å ´åˆã«ã€ŒServer is offã€ã¨è¡¨ç¤ºã™ã‚‹ã€‚
   */
   public static void socketClient() throws IOException {
     Socket socket = new Socket("127.0.0.1", 8888);
     if (socket.isConnected()) {
-      new writer(socket).start();
-      new read(socket).start();
+      new Writer(socket).start();
+      new Read(socket).start();
     } else {
       System.out.println("Server is off");
-    }
-  }
-}
-
-/**
-/* message‚ğ“ü—Í‚·‚éThread
- */
-class writer extends Thread {
-  private Socket socket;
-  private PrintWriter printWriter;
-  private Scanner scanner = new Scanner(System.in);
-  private String str = null;
-
-  public writer(Socket socket) throws IOException {
-    this.socket = socket;
-    this.printWriter = new PrintWriter(socket.getOutputStream());
-  }
-  
-  //Thread‚ÌƒvƒƒOƒ‰ƒ€‚ğÀs‚³‚¹‚éB
-  public void run() {
-    scanner.useDelimiter("\r\n");
-    while (true) {
-      System.out.print("Please input messageF");
-      str = scanner.next();
-      printWriter.write(str + "\r\n");
-      printWriter.flush();
-      try {
-        Thread.sleep(200);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-}
-
-/**
-/* Client‘¤‚©‚ç‚Ì“ü—Í‚ğƒoƒbƒtƒ@[‚·‚éB
- */
-class read extends Thread {
-  private Socket socket;
-  private BufferedReader bufferedReader;
-  private String str = null;
-
-  public read(Socket socket) throws IOException {
-    this.socket = socket;
-    this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-  }
- 
-  //ƒoƒbƒtƒ@[‚©‚çmessage‚ğ“Ç‚İo‚µ‚ÄA•\‚·B
-  public void run() {
-    while (true) {
-      try {
-        str = bufferedReader.readLine();
-        System.out.println(str);
-      } catch (IOException e) {
-      }
-      try {
-        Thread.sleep(200);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
     }
   }
 }

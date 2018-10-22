@@ -1,21 +1,16 @@
 package communicate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
-public class server {
+public class Server {
+
   public static void main(String[] args) throws IOException {
     socketServer();
   }
-
   /**
-  /* ƒzƒXƒg‚ğİ’u‚µ‚ÄA Socket‚ÌThread‚ğn‚Ü‚éBClient‘¤‚ÌÚ‘±‚ğ‘Ò‚ÂB
+   * ãƒ›ã‚¹ãƒˆã‚’è¨­ç½®ã—ã¦ã€ Socketã®Threadã‚’å§‹ã¾ã‚‹ã€‚Clientå´ã®æ¥ç¶šã‚’å¾…ã¤ã€‚
    */
   public static void socketServer() throws IOException {
     System.out.println("Waiting for client");
@@ -24,33 +19,6 @@ public class server {
       Socket socket = server.accept();
       System.out.println(socket.getInetAddress().getHostAddress() + " Connected in ");
       new SocketThread(socket).start();
-    }
-  }
-}
-
-/**
-/* Client‘¤‚©‚ç“ü—Í‚µ‚½message‚ğóM‚·‚éB
- */
-class SocketThread extends Thread {
-  private static List<PrintWriter> list = new ArrayList<PrintWriter>();
-  private BufferedReader bufferedReader;
-  private PrintWriter printWriter;
-
-  public SocketThread(Socket socket) throws IOException {
-    this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    this.printWriter = new PrintWriter(socket.getOutputStream());
-    list.add(printWriter);
-  }
-  
-  //ƒoƒbƒtƒ@[‚©‚çmessage‚ğ“Ç‚İo‚µ‚ÄA•\‚·B
-  public void run() {
-    String string = null;
-    while (true) {
-      try {
-        string = bufferedReader.readLine();
-        System.out.println("Client messageF" + string);
-      } catch (IOException e) {
-      }
     }
   }
 }
